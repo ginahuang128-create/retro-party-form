@@ -345,6 +345,100 @@ body{
   text-align:center;font-size:.7rem;color:rgba(255,255,255,.2);
   margin-top:2rem;letter-spacing:.12em;
 }
+
+/* ── Success Modal ── */
+.modal-overlay{
+  position:fixed;inset:0;z-index:50;
+  background:rgba(10,6,20,.78);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;
+  padding:1.2rem;
+  opacity:0;pointer-events:none;
+  transition:opacity .25s ease;
+}
+.modal-overlay.show{opacity:1;pointer-events:auto}
+.modal-card{
+  width:100%;max-width:400px;
+  background:rgba(24,14,42,.92);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:20px;
+  padding:1.8rem 1.4rem 1.6rem;
+  text-align:center;
+  position:relative;overflow:hidden;
+  transform:translateY(14px) scale(.97);
+  transition:transform .3s ease;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+  max-height:88vh;overflow-y:auto;
+}
+.modal-overlay.show .modal-card{transform:translateY(0) scale(1)}
+.modal-card::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,112,67,.08) 0%,transparent 55%,rgba(0,229,176,.05) 100%);
+}
+.modal-dots{
+  display:flex;justify-content:center;gap:.35rem;margin-bottom:.9rem;
+}
+.modal-dots span{
+  width:4px;height:4px;border-radius:50%;
+  background:var(--accent-gold);opacity:.5;
+}
+.modal-title{
+  font-size:1.15rem;font-weight:800;color:var(--text-light);
+  margin-bottom:.7rem;line-height:1.4;
+  text-shadow:0 0 16px rgba(255,112,67,.35);
+}
+.modal-desc{
+  font-size:.8rem;color:var(--text-mid);line-height:1.75;
+  margin-bottom:1.2rem;
+}
+.modal-invite-box{
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:1.1rem 1rem;
+  margin-bottom:1.2rem;
+  position:relative;z-index:1;
+}
+.modal-invite-text{
+  font-size:.8rem;color:var(--text-mid);line-height:1.7;margin-bottom:.9rem;
+}
+.line-join-btn{
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+  width:100%;padding:.85rem 1rem;
+  background:linear-gradient(135deg,#06c755,#00a844);
+  color:#fff;font-weight:800;font-size:.92rem;letter-spacing:.03em;
+  border-radius:12px;text-decoration:none;
+  box-shadow:0 8px 22px rgba(6,199,85,.35);
+  transition:transform .2s,box-shadow .2s;
+}
+.line-join-btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 10px 26px rgba(6,199,85,.45);
+}
+.modal-pw-row{
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+  margin-top:.9rem;font-size:.8rem;color:var(--text-muted);
+}
+.modal-pw-val{
+  font-family:'Courier New',monospace;font-weight:700;
+  color:var(--accent-gold);
+  background:rgba(255,213,79,.1);
+  border:1px solid rgba(255,213,79,.25);
+  border-radius:7px;padding:.15em .7em;letter-spacing:.05em;
+}
+.modal-note{
+  font-size:.73rem;color:var(--text-muted);line-height:1.7;margin-bottom:1.3rem;
+}
+.modal-close-btn{
+  width:100%;padding:.75rem 1rem;
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--border);
+  border-radius:12px;
+  color:var(--text-mid);font-size:.83rem;font-weight:600;
+  cursor:pointer;font-family:inherit;
+  transition:background .2s;
+}
+.modal-close-btn:hover{background:rgba(255,255,255,.09)}
 </style>
 </head>
 <body>
@@ -565,6 +659,31 @@ body{
   <footer class="footer">✦ 時光倒流 1980 · 老派夏日戀曲之夜 ✦</footer>
 </div>
 
+<!-- ── Success Modal ── -->
+<div class="modal-overlay" id="successModal">
+  <div class="modal-card">
+    <div class="modal-dots"><span></span><span></span><span></span></div>
+    <p class="modal-title">恭喜妳，已成功傳送報名資料 🎉</p>
+    <p class="modal-desc">
+      妳的座位已經與時光機產生連結。<br>
+      確認完成匯款後，總召將盡快與妳聯繫並確認名額唷。
+    </p>
+    <div class="modal-invite-box">
+      <p class="modal-invite-text">
+        您已被邀請加入「時光倒流 1980」活動社群，<br>請點選以下連結加入：
+      </p>
+      <a class="line-join-btn" id="lineJoinBtn" href="https://line.me/ti/g2/BlDIgyE6ELNOQaJ8iPkmxmUVkJpoU249XXrWQQ?utm_source=invitation&amp;utm_medium=link_copy&amp;utm_campaign=default" target="_blank" rel="noopener">
+        💚 加入 LINE 社群
+      </a>
+      <div class="modal-pw-row">
+        進群密碼：<span class="modal-pw-val">ladies</span>
+      </div>
+    </div>
+    <p class="modal-note">期待與妳一起搭上時光機，回到那個老派又浪漫的夏日夜晚。</p>
+    <button type="button" class="modal-close-btn" id="modalCloseBtn">關閉視窗</button>
+  </div>
+</div>
+
 <script>
 // Particles
 (function(){
@@ -617,15 +736,28 @@ form.addEventListener('submit',async e=>{
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({name,phone,igId,style,diet,lastFive})
     });
-    alert('🎉 報名資料提交成功！請確認已完成匯款，總召將盡快與妳聯繫並確認名額唷！');
     form.reset();
     document.querySelectorAll('input[type="checkbox"]').forEach(c=>c.checked=false);
+    successModal.classList.add('show');
+    document.body.style.overflow='hidden';
   }catch(err){
     alert('❌ 提交失敗，請稍後再試：'+err.message);
   }finally{
     submitBtn.disabled=false;
     btnInner.textContent='搭上時光機 🚀';
   }
+});
+
+// Success modal controls
+const successModal=document.getElementById('successModal');
+const modalCloseBtn=document.getElementById('modalCloseBtn');
+function closeModal(){
+  successModal.classList.remove('show');
+  document.body.style.overflow='';
+}
+modalCloseBtn.addEventListener('click',closeModal);
+successModal.addEventListener('click',e=>{
+  if(e.target===successModal) closeModal();
 });
 </script>
 </body>
