@@ -105,6 +105,51 @@ body{
   border-radius:999px;padding:.2em .9em;margin-top:.3rem;
 }
 
+/* ── Scroll reveal (generic) ── */
+[data-reveal]{
+  opacity:0;transform:translateY(22px);
+  transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1);
+}
+[data-reveal].in-view{opacity:1;transform:translateY(0)}
+
+/* ── Countdown ── */
+.countdown{
+  display:flex;justify-content:center;gap:.5rem;margin:.9rem 0 .3rem;
+}
+.cd-box{
+  background:rgba(255,255,255,.05);border:1px solid var(--border-gold);
+  border-radius:10px;padding:.45rem .3rem;min-width:52px;text-align:center;
+}
+.cd-num{font-size:1.05rem;font-weight:800;color:var(--accent-gold);
+  text-shadow:0 0 10px rgba(255,213,79,.4);line-height:1.1;font-variant-numeric:tabular-nums;}
+.cd-unit{font-size:.6rem;color:var(--text-muted);letter-spacing:.05em;margin-top:.15rem}
+
+/* ── Social proof strip ── */
+.social-proof{
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+  font-size:.72rem;color:var(--text-mid);
+  background:rgba(255,112,67,.06);border:1px solid rgba(255,112,67,.18);
+  border-radius:999px;padding:.45em 1em;margin:0 0 1.6rem;
+}
+.sp-dot{width:6px;height:6px;border-radius:50%;background:var(--accent-coral);animation:blink 1.6s infinite}
+
+/* ── Sticky CTA ── */
+.sticky-cta{
+  position:fixed;left:0;right:0;bottom:0;z-index:40;
+  padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom));
+  background:linear-gradient(180deg,transparent,rgba(10,6,20,.75) 30%,rgba(10,6,20,.96));
+  transform:translateY(120%);transition:transform .35s ease;
+}
+.sticky-cta.show{transform:translateY(0)}
+.sticky-cta-inner{max-width:480px;margin:0 auto}
+.sticky-cta a{
+  display:flex;align-items:center;justify-content:center;gap:.4rem;
+  width:100%;padding:.85rem 1rem;border-radius:13px;text-decoration:none;
+  background:linear-gradient(135deg,#ff7043,#ffd54f);
+  color:#1a0f08;font-weight:800;font-size:.9rem;letter-spacing:.04em;
+  box-shadow:0 10px 26px rgba(255,112,67,.4);
+}
+
 /* ── Event strip ── */
 .event-strip{
   display:grid;grid-template-columns:1fr 1fr 1fr;
@@ -147,15 +192,25 @@ body{
   margin:0 -1rem 1.6rem;position:relative;
   border-radius:0;overflow:hidden;
 }
-.scene-wrap img{width:100%;display:block;filter:brightness(.72) saturate(1.05)}
+.scene-wrap img{width:100%;display:block;filter:brightness(.78) saturate(1.1)}
 .scene-overlay{
   position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(18,14,40,0) 40%,rgba(18,14,40,.85) 85%,var(--bg) 100%);
-  display:flex;align-items:flex-end;padding:1.3rem 1.4rem;
+  background:linear-gradient(180deg,rgba(18,14,40,0) 22%,rgba(18,14,40,.55) 58%,rgba(18,14,40,.88) 82%,var(--bg) 100%);
+  display:flex;align-items:flex-end;padding:1.5rem 1.4rem 1.3rem;
+}
+.scene-inner{
+  opacity:0;transform:translateY(14px);
+  transition:opacity .8s ease,transform .8s ease;
+  width:100%;
+}
+.scene-inner.in-view{opacity:1;transform:translateY(0)}
+.scene-rule{
+  width:38px;height:1.5px;margin-bottom:.7rem;
+  background:linear-gradient(90deg,var(--accent-gold),transparent);
 }
 .scene-text{
   font-size:.85rem;line-height:1.85;color:var(--text-light);
-  text-shadow:0 2px 10px rgba(0,0,0,.5);
+  text-shadow:0 2px 12px rgba(0,0,0,.65);
 }
 .scene-text b{color:var(--accent-gold);font-weight:800}
 
@@ -486,7 +541,10 @@ body{
   <div class="scene-wrap">
     <img src="https://i.meee.com.tw/vYGPBaP.png" alt="時光倒流 1980 開場情境">
     <div class="scene-overlay">
-      <p class="scene-text">還記得那個沒有 LINE、只能寫紙條點歌的年代嗎？<br>這個夏天，<b>我們一起搭上時光機，回到 1980</b>，港風紅唇、昭和碎花、迪斯可亮片，通通登場。</p>
+      <div class="scene-inner" data-reveal>
+        <div class="scene-rule"></div>
+        <p class="scene-text">還記得那個沒有 LINE、只能寫紙條點歌的年代嗎？<br>這個夏天，<b>我們一起搭上時光機，回到 1980</b>，港風紅唇、昭和碎花、迪斯可亮片，通通登場。</p>
+      </div>
     </div>
   </div>
 
@@ -495,10 +553,15 @@ body{
     <p class="sub-en">Registration Form</p>
     <h1 class="main-title">填單報名<br><em>鎖定妳的時光機座位</em></h1>
     <span class="note-pill">※ 預付制・填單後 3 天內匯款鎖位</span>
+    <div class="countdown" id="countdown">
+      <div class="cd-box"><div class="cd-num" id="cdD">--</div><div class="cd-unit">天</div></div>
+      <div class="cd-box"><div class="cd-num" id="cdH">--</div><div class="cd-unit">時</div></div>
+      <div class="cd-box"><div class="cd-num" id="cdM">--</div><div class="cd-unit">分</div></div>
+    </div>
   </header>
 
   <!-- Event info strip -->
-  <div class="event-strip">
+  <div class="event-strip" data-reveal>
     <div class="strip-item">
       <span class="si-icon">📅</span>
       <div class="si-label">日期</div>
@@ -516,8 +579,10 @@ body{
     </div>
   </div>
 
+  <div class="social-proof" data-reveal><span class="sp-dot"></span>已有多位女孩登記鎖定座位・僅剩少數席次</div>
+
   <!-- Activities & Prizes -->
-  <div class="panel">
+  <div class="panel" data-reveal>
     <p class="panel-eyebrow">What's Happening</p>
     <h3 class="panel-title">✨ 當晚節目 & 獎項</h3>
     <div class="act-grid">
@@ -568,7 +633,7 @@ body{
   </div>
 
   <!-- Venue Rules -->
-  <div class="panel" style="border-color:rgba(255,112,67,.15)">
+  <div class="panel" style="border-color:rgba(255,112,67,.15)" data-reveal>
     <p class="panel-eyebrow">Venue Rules</p>
     <h3 class="panel-title">🛑 浪漫屋現場守則</h3>
     <div class="rule-item">
@@ -598,7 +663,7 @@ body{
   <form id="registrationForm" novalidate>
 
     <!-- Step 1 -->
-    <div class="glass-card">
+    <div class="glass-card" data-reveal>
       <div class="step-tag"><span class="dot"></span>STEP 01</div>
       <p class="card-title">怎麼稱呼妳？</p>
       <div class="field">
@@ -618,7 +683,7 @@ body{
     <div class="step-divider"><span></span><span></span><span></span></div>
 
     <!-- Step 2 -->
-    <div class="glass-card">
+    <div class="glass-card" data-reveal>
       <div class="step-tag"><span class="dot"></span>STEP 02</div>
       <p class="card-title">當晚妳的名伶造型是？💄</p>
       <div class="tile-grid">
@@ -645,7 +710,7 @@ body{
     <div class="step-divider"><span></span><span></span><span></span></div>
 
     <!-- Step 3 -->
-    <div class="glass-card">
+    <div class="glass-card" data-reveal>
       <div class="step-tag"><span class="dot"></span>STEP 03</div>
       <p class="card-title">飲食習慣 🍽</p>
       <div class="tile-grid tile-grid-3">
@@ -667,7 +732,7 @@ body{
     <div class="step-divider"><span></span><span></span><span></span></div>
 
     <!-- Step 4 -->
-    <div class="glass-card">
+    <div class="glass-card" data-reveal>
       <div class="step-tag"><span class="dot"></span>STEP 04</div>
       <p class="card-title">完成匯款 &amp; 確認 💸</p>
       <div class="bank-card">
@@ -706,6 +771,13 @@ body{
   </form>
 
   <footer class="footer">✦ 時光倒流 1980 · 老派夏日戀曲之夜 ✦</footer>
+</div>
+
+<!-- ── Sticky CTA ── -->
+<div class="sticky-cta" id="stickyCta">
+  <div class="sticky-cta-inner">
+    <a href="#registrationForm" id="stickyCtaLink">🚀 立即報名鎖定座位</a>
+  </div>
 </div>
 
 <!-- ── Success Modal ── -->
@@ -751,6 +823,53 @@ body{
       +`filter:blur(${(Math.random()*1.5).toFixed(1)}px);`;
     c.appendChild(p);
   }
+})();
+
+// Scroll reveal
+(function(){
+  const els=document.querySelectorAll('[data-reveal]');
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){
+        en.target.classList.add('in-view');
+        io.unobserve(en.target);
+      }
+    });
+  },{threshold:.15,rootMargin:'0px 0px -8% 0px'});
+  els.forEach(el=>io.observe(el));
+})();
+
+// Countdown
+(function(){
+  const target=new Date('2026-08-14T18:00:00+08:00').getTime();
+  const dEl=document.getElementById('cdD'),hEl=document.getElementById('cdH'),mEl=document.getElementById('cdM');
+  function tick(){
+    const diff=target-Date.now();
+    if(diff<=0){dEl.textContent='0';hEl.textContent='0';mEl.textContent='0';return;}
+    const d=Math.floor(diff/86400000);
+    const h=Math.floor((diff%86400000)/3600000);
+    const m=Math.floor((diff%3600000)/60000);
+    dEl.textContent=d;hEl.textContent=h;mEl.textContent=m;
+  }
+  tick();
+  setInterval(tick,30000);
+})();
+
+// Sticky CTA visibility
+(function(){
+  const cta=document.getElementById('stickyCta');
+  const form=document.getElementById('registrationForm');
+  const strip=document.querySelector('.event-strip');
+  document.getElementById('stickyCtaLink').addEventListener('click',e=>{
+    e.preventDefault();
+    form.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+  window.addEventListener('scroll',()=>{
+    const pastHero=strip.getBoundingClientRect().top<0;
+    const formRect=form.getBoundingClientRect();
+    const inForm=formRect.top<window.innerHeight*0.6 && formRect.bottom>0;
+    cta.classList.toggle('show', pastHero && !inForm);
+  },{passive:true});
 })();
 
 // Form
