@@ -165,13 +165,8 @@ body{
   background:rgba(255,255,255,.04);border:1px solid var(--border);
   border-radius:14px;overflow:hidden;
 }
-.act-card-img-wrap{
-  width:100%;background:rgba(0,0,0,.28);
-  display:flex;align-items:center;justify-content:center;
-  aspect-ratio:16/9;
-}
 .act-card-img{
-  width:100%;height:100%;object-fit:contain;display:block;
+  width:100%;height:auto;display:block;
 }
 .act-card-body{padding:.75rem .9rem}
 .ac-icon{font-size:1.1rem;margin-bottom:.15rem}
@@ -403,11 +398,10 @@ body{
 }
 .modal-scene-wrap{
   width:calc(100% + 2.8rem);margin:-1.8rem -1.4rem 1rem;
-  background:rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;
-  aspect-ratio:16/9;overflow:hidden;
+  overflow:hidden;line-height:0;
 }
 .modal-scene-img{
-  width:100%;height:100%;object-fit:contain;display:block;
+  width:100%;height:auto;display:block;
   filter:brightness(.85);
 }
 .modal-dots{
@@ -528,7 +522,7 @@ body{
     <h3 class="panel-title">✨ 當晚節目 & 獎項</h3>
     <div class="act-grid">
       <div class="act-card">
-        <div class="act-card-img-wrap"><img class="act-card-img" src="https://i.meee.com.tw/RNNF6Xl.png" alt="復古猜歌大戰"></div>
+        <img class="act-card-img" src="https://i.meee.com.tw/RNNF6Xl.png" alt="復古猜歌大戰">
         <div class="act-card-body">
           <div class="ac-icon">🎤</div>
           <div class="ac-name">復古猜歌大戰</div>
@@ -536,7 +530,7 @@ body{
         </div>
       </div>
       <div class="act-card">
-        <div class="act-card-img-wrap"><img class="act-card-img" src="https://i.meee.com.tw/1AhtEj3.png" alt="手寫點歌卡"></div>
+        <img class="act-card-img" src="https://i.meee.com.tw/1AhtEj3.png" alt="手寫點歌卡">
         <div class="act-card-body">
           <div class="ac-icon">📻</div>
           <div class="ac-name">手寫點歌卡</div>
@@ -544,7 +538,7 @@ body{
         </div>
       </div>
       <div class="act-card">
-        <div class="act-card-img-wrap"><img class="act-card-img" src="https://i.meee.com.tw/1vB5h0b.png" alt="造型拍立得"></div>
+        <img class="act-card-img" src="https://i.meee.com.tw/1vB5h0b.png" alt="造型拍立得">
         <div class="act-card-body">
           <div class="ac-icon">📸</div>
           <div class="ac-name">造型拍立得</div>
@@ -552,7 +546,7 @@ body{
         </div>
       </div>
       <div class="act-card">
-        <div class="act-card-img-wrap"><img class="act-card-img" src="https://i.meee.com.tw/mludmw2.png" alt="外帶餐酒"></div>
+        <img class="act-card-img" src="https://i.meee.com.tw/mludmw2.png" alt="外帶餐酒">
         <div class="act-card-body">
           <div class="ac-icon">🍕</div>
           <div class="ac-name">外帶餐酒</div>
